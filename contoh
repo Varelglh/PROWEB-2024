@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Harga Buah</title>
+</head>
+<body>
+
+<h2>Hitung Total Harga Buah</h2>
+
+<!-- Formulir HTML -->
+<form action="" method="GET">
+    <label for="Buah">Pilih Buah:</label>
+    <input type="text" id="Buah" name="Buah" placeholder="Masukkan nama buah">
+    <br><br>
+    <label for="jumlahBuah">Jumlah:</label>
+    <input type="number" id="jumlahBuah" name="jumlahBuah" placeholder="Masukkan jumlah">
+    <br><br>
+    <input type="submit" value="Hitung">
+</form>
+
+<?php
+// List harga buah
+$listharga = ["apel" => 10000, "pisang" => 5000, "mangga" => 15000];
+
+// Fungsi untuk mengecek apakah buah tersedia di daftar harga
+function buahTersedia($input, $listharga) {
+    foreach ($listharga as $buah => $harga) {
+        if ($input === $buah) { // Gunakan === untuk perbandingan
+            return true;
+        }
+    }
+    return false; // Diletakkan di luar loop agar benar
+}
+
+// Tangkap data buah dari input GET
+if (isset($_GET['Buah']) && isset($_GET['jumlahBuah'])) {
+    function tangkapData($listharga) {
+        // Mendapatkan data dari query string
+        $input = strtolower($_GET['Buah']);
+        $jumlah = $_GET['jumlahBuah'];
+        
+        // Mengecek apakah buah tersedia
+        if (buahTersedia($input, $listharga)) {
+            $harga = $listharga[$input];
+            $total = $jumlah * $harga;
+            echo "<h3>Total harga untuk " . $jumlah . " " . $input . " adalah Rp " . $total . "</h3>";
+        } else {
+            echo "<h3>Buah tidak ditemukan.</h3>";
+        }
+    }
+
+    // Panggil fungsi tangkapData
+    tangkapData($listharga);
+}
+?>
+
+</body>
+</html>
